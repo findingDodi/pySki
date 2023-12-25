@@ -6,9 +6,10 @@ import conf
 
 class Obstacle:
 
+    POSSIBLE_OBSTACLES = os.listdir('assets/images/obstacles')
+
     def __init__(self, pos_x):
-        possible_obstacles = os.listdir('assets/images/obstacles')
-        self.image = pygame.image.load('assets/images/obstacles/{}'.format(random.choice(possible_obstacles)))
+        self.image = pygame.image.load('assets/images/obstacles/{}'.format(random.choice(Obstacle.POSSIBLE_OBSTACLES)))
         self.image = pygame.transform.scale2x(self.image)
         self.rect = self.image.get_rect()
         self.rect[0] = pos_x

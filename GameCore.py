@@ -28,10 +28,9 @@ class GameCore:
     def draw_obstacle(self, obstacle):
         self.screen.blit(obstacle.image, obstacle.rect)
 
-    def spawn_tree(self):
+    def spawn_obstacle(self):
         new_obstacle = Obstacle(random.randrange(1, conf.SCREEN_SIZE[0], 20))
         self.obstacles.append(new_obstacle)
-        self.draw_obstacle(new_obstacle)
 
     def move_obstacles(self):
         for obstacle in self.obstacles:
@@ -78,7 +77,7 @@ class GameCore:
 
             current_time = pygame.time.get_ticks()
             if current_time > self.spawn_time:
-                self.spawn_tree()
+                self.spawn_obstacle()
                 self.spawn_time += self.spawn_interval
 
             if not self.game_stopped:

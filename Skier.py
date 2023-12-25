@@ -1,7 +1,4 @@
-import random
 import pygame
-import os
-import conf
 
 
 class Skier:
