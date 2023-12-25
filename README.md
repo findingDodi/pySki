@@ -9,3 +9,6 @@ little Ski Game
   * skier should not run into them
 * 3 Lives
 * finish line
+
+## Assets
+from Kenny https://kenney.nl/assets/1-bit-pack
