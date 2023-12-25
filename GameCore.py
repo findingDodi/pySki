@@ -3,6 +3,7 @@ import random
 
 import conf
 from Obstacle import Obstacle
+from Skier import Skier
 
 
 class GameCore:
@@ -15,28 +16,14 @@ class GameCore:
         self.game_is_running = True
         self.game_stopped = False
 
-        self.skier = pygame.image.load('assets/images/skier.png')
-        self.skier = pygame.transform.scale2x(self.skier)
-        self.skier_rect = self.skier.get_rect()
-        self.skier_rect[0] = 100
-        self.skier_rect[1] = 50
+        self.skier = Skier()
+        self.obstacles = []
 
         self.spawn_interval = 500
         self.spawn_time = pygame.time.get_ticks()
 
-        self.obstacles = []
-
     def draw_skier(self):
-        self.screen.blit(self.skier, self.skier_rect)
-
-    def move_skier(self):
-        keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_LEFT]:
-            self.skier_rect[0] -= 10
-        elif keys_pressed[pygame.K_RIGHT]:
-            self.skier_rect[0] += 10
-
-        self.draw_skier()
+        self.screen.blit(self.skier.image, self.skier.rect)
 
     def draw_obstacle(self, obstacle):
         self.screen.blit(obstacle.image, obstacle.rect)
@@ -52,14 +39,14 @@ class GameCore:
             self.draw_obstacle(obstacle)
 
     def border_patrol(self):
-        if self.skier_rect[0] < 0:
-            self.skier_rect[0] = 0
-        elif self.skier_rect[0] > self.screen_width - 20:
-            self.skier_rect[0] = self.screen_width - 20
+        if self.skier.rect[0] < 0:
+            self.skier.rect[0] = 0
+        elif self.skier.rect[0] > self.screen_width - 20:
+            self.skier.rect[0] = self.screen_width - 20
 
     def collide_patrol(self):
         for obstacle in self.obstacles:
-            if self.skier_rect.colliderect(obstacle.rect):
+            if self.skier.rect.colliderect(obstacle.rect):
                 self.game_stopped = True
 
     def draw_game_over_screen(self):
@@ -95,10 +82,11 @@ class GameCore:
                 self.spawn_time += self.spawn_interval
 
             if not self.game_stopped:
-                self.move_skier()
+                self.skier.move()
                 self.move_obstacles()
                 self.border_patrol()
                 self.collide_patrol()
+                self.draw_skier()
             else:
                 self.draw_game_over_screen()
 
